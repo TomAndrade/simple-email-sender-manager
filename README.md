@@ -1,8 +1,17 @@
 # Simple email sender for tests
 
 >Status: updating ♻️<br>
->Version: not applicable<br>
+>Version: 1.3<br>
 >Date released: 12/16/2025
+
+### Update 1.3
+* Media and attachments support
+
+### Update 1.2
+* English language added.
+
+### Update 1.1
+* UI Changes.
 
 ## What does it do? - Purpose
 Opens a window as a window to send emails with HTML language support.
@@ -14,10 +23,10 @@ Single form no dependencies. One menu, two languages: PT-BT; EN-US. One textBox 
 The program is in Portuguese-Brazil language.
 Check "This email contains HTML" box to activate HTML content:
 * "B" button changes the selected text in **bold**. "I" changes in _italic_. "U" in <ins>underlined</ins>.
-* "Media" button adds media files in the body. (unavailable for now - WIP).
+* "Media" button adds media files in the body.
 
 The "Send email" button works when subject is not null only.
-The "Annex" button is currently unavailable (WIP). 
+The "Annex/ Attachment" adds files.
 
 ## Observations:
 
