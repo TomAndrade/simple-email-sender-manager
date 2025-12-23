@@ -1,8 +1,11 @@
 # Simple email sender for tests
 
 >Status: updating ♻️<br>
->Version: 1.3<br>
+>Version: 1.4<br>
 >Date released: 12/16/2025
+
+### Update 1.4
+* Email reader support
 
 ### Update 1.3
 * Media and attachments support
