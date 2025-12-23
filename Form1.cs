@@ -2,33 +2,41 @@ using System.Net;
 using System.Net.Mail;
 using System.Text;
 
+/*
+ * 1.0 - Release
+ * 1.1 - UI changes
+ * 1.2 - English (US) language added
+ * 1.3 - Media and annex support
+ */
+
 namespace WinFormsEnviarEmails
 {
     public partial class Form1 : Form
     {
         static string[] languages = { "portuguese", "english" };
         static string actualLanguage = languages[0];
+        static bool hasMedia = false;
+        static bool hasAnnex = false;
+        List<string> listaAnexos = new List<string>();
         public Form1()
         {
             InitializeComponent();
             portuguêsBrasilToolStripMenuItem.Checked = true;
-            buttonAnexo.Enabled = false;
         }
 
         private void buttonEnviaEmail_Click(object sender, EventArgs e)
         {
             try
             {
-                // Para enviar um email, é necessário criar uma instância SMTP (importe de System.Net) e inserir o host e a porta.
-                SmtpClient smtpClient = new SmtpClient("smtp.gmail.com", 587);
-                smtpClient.EnableSsl = true;                                                                            // Ativa certificados SSL para criptografar a conexão.
-                smtpClient.UseDefaultCredentials = false;                                                               // Impede de usar credenciais do Windows.
-                smtpClient.Credentials = new NetworkCredential("anEmail@email.com", "pass"); // Login e senha
-                smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;                                                 // O método de entrega.
+                SmtpClient smtpClient = new SmtpClient("smtp.gmail.com", 587);                                          // SMTP client required.
+                smtpClient.EnableSsl = true;                                                                            // Enables SSL encrypt.
+                smtpClient.UseDefaultCredentials = false;                                                               // Blocks Windows credentials.
+                smtpClient.Credentials = new NetworkCredential("anEmail@email.com", "pass");                            // Login and pass.
+                smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;                                                 // Delivery method
 
-                MailMessage mailMessage = new MailMessage();                                            // Cria o email a ser entregue.
-                mailMessage.From = new MailAddress("anEmail@email.com");                    // O remetente.
-                mailMessage.To.Add(new MailAddress("anEmail@email.com"));                           // O destinatário.
+                MailMessage mailMessage = new MailMessage();                                        // Creates the email.
+                mailMessage.From = new MailAddress("anEmail@email.com");                            // Sender
+                mailMessage.To.Add(new MailAddress("anEmail@email.com"));                           // Recipient
                 if (textBoxSubject.Text == "" || textBoxSubject.Text is null)
                 {
                     if (actualLanguage == languages[0])
@@ -47,28 +55,37 @@ namespace WinFormsEnviarEmails
                 }
                 else
                 {
-                    mailMessage.Subject = textBoxSubject.Text;                                              // Assunto do email.
-                }
-                mailMessage.Body = richTextBoxCorpo.Text;                                               // Corpo do email.
+                    mailMessage.Subject = textBoxSubject.Text;   // Email subject.
+                } 
+                mailMessage.Body = richTextBoxCorpo.Text;        // Email body.
                 if (checkBoxContemHTML.Checked)
                 {
-                    mailMessage.IsBodyHtml = true;                                                          // Define se o email está em hmtl.
+                    mailMessage.IsBodyHtml = true;               // Actives HTML resource.
+                    if (buttonMidia.Enabled)
+                    {
+                        if (hasMedia)
+                        {
+                            LinkedResource imagem = new LinkedResource(openFileMidia.FileName);
+                            imagem.ContentId = "media";
+                            AlternateView html = AlternateView.CreateAlternateViewFromString($"{mailMessage.Body}<br><img src=cid:media><br>", null, "text/html");
+                            html.LinkedResources.Add(imagem);
+                            mailMessage.AlternateViews.Add(html);
+                        }
+                    }
+                    if (hasAnnex)
+                    {
+                        for (int i = 0; i < listaAnexos.Count; i++)
+                        {
+                            Attachment anexo = new Attachment(listaAnexos[i]);
+                            mailMessage.Attachments.Add(anexo);
+                        }
+                    }
                 }
                 else
                 {
                     mailMessage.IsBodyHtml = false;
                 }
-                if (buttonMidia.Enabled)
-                {
-                    if (richTextBoxCorpo.Text.Contains("contemImagem"))
-                    {
-                        LinkedResource imagem = new LinkedResource(openFileMidia.FileName);
-                        imagem.ContentId = "exemplo";
-                        AlternateView html = AlternateView.CreateAlternateViewFromString($"<br><img src=cid:exemplo><br>", null, "text/html");
-                        html.LinkedResources.Add(imagem);
-                    }
-                }
-                smtpClient.Send(mailMessage);                                                           // Envia a mensagem.
+                smtpClient.Send(mailMessage);                   // Sends the email.
                 buttonEnviaEmail.Enabled = false;
                 if (actualLanguage == languages[0])
                 {
@@ -106,8 +123,16 @@ namespace WinFormsEnviarEmails
             openFileAnexo.Filter = "All files|*.*";
             if (openFileAnexo.ShowDialog() == DialogResult.OK)
             {
-                labelAnexo.Text = openFileAnexo.FileName;
-                //labelAnexo.Text = System.IO.Path.GetFileName(openFileAnexo.FileName);  // Use este se quiser apenas o nome do arquivo sem o diretório.
+                if (portuguêsBrasilToolStripMenuItem.Checked)
+                {
+                    labelAnexo.Text = $"Contém {listaAnexos.Count+1} anexo(s).";
+                }else if (englishUSToolStripMenuItem.Checked)
+                {
+                    labelAnexo.Text = $"Contains {listaAnexos.Count+1} attachment(s).";
+                }
+                    //labelAnexo.Text = System.IO.Path.GetFileName(openFileAnexo.FileName);  // Use este se quiser apenas o nome do arquivo sem o diretório.
+                listaAnexos.Add(openFileAnexo.FileName);
+                hasAnnex = true;
             }
         }
 
@@ -117,7 +142,8 @@ namespace WinFormsEnviarEmails
             openFileMidia.Filter = "Media files|*.jpg;*.jpeg;*.bmp;*.png;*.gif;*.mpeg;*.wmv;*.mp4;*.mp3;*.wma";
             if (openFileMidia.ShowDialog() == DialogResult.OK)
             {
-                richTextBoxCorpo.Text += "\ncontemImagem";
+                labelMedia.Text = openFileMidia.FileName;
+                hasMedia = true;
             }
         }
 
@@ -152,7 +178,8 @@ namespace WinFormsEnviarEmails
                 buttonBold.Enabled = true;
                 buttonItalic.Enabled = true;
                 buttonUnderline.Enabled = true;
-                //buttonMidia.Enabled = true;
+                buttonMidia.Enabled = true;
+                labelMedia.Enabled = true;
             }
             else
             {
@@ -160,6 +187,7 @@ namespace WinFormsEnviarEmails
                 buttonItalic.Enabled = false;
                 buttonUnderline.Enabled = false;
                 buttonMidia.Enabled = false;
+                labelMedia.Enabled = false;
             }
         }
 
@@ -193,12 +221,12 @@ namespace WinFormsEnviarEmails
             sairToolStripMenuItem.Text = "Sair";
 
             labelSubject.Text = "Assunto:";
-            labelBody.Text = "Corpo";
+            groupBoxCorpo.Text = "Corpo";
             checkBoxContemHTML.Text = "Este email contém HTML";
             buttonAnexo.Text = "Anexo";
             buttonEnviaEmail.Text = "Enviar email";
             groupBoxElements.Text = "Inserir elementos";
-            labelAnexo.Text = "<Nenhum arquivo selecionado>";
+            //labelAnexo.Text = "<Nenhum arquivo selecionado>";
             buttonMidia.Text = "Mídia...";
         }
 
@@ -212,12 +240,12 @@ namespace WinFormsEnviarEmails
             sairToolStripMenuItem.Text = "Exit";
 
             labelSubject.Text = "Subject:";
-            labelBody.Text = "Body";
+            groupBoxCorpo.Text = "Body";
             checkBoxContemHTML.Text = "This email contains HTML";
             buttonAnexo.Text = "Annex";
             buttonEnviaEmail.Text = "Send email";
             groupBoxElements.Text = "Insert elements";
-            labelAnexo.Text = "<Any element selected>";
+            //labelAnexo.Text = "<Any file selected>";
             buttonMidia.Text = "Media...";
         }
 

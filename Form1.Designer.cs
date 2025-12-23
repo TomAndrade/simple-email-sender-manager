@@ -37,7 +37,6 @@
             buttonAnexo = new Button();
             richTextBoxCorpo = new RichTextBox();
             textBoxSubject = new TextBox();
-            labelBody = new Label();
             labelSubject = new Label();
             openFileAnexo = new OpenFileDialog();
             buttonBold = new Button();
@@ -51,8 +50,11 @@
             portuguêsBrasilToolStripMenuItem = new ToolStripMenuItem();
             englishUSToolStripMenuItem = new ToolStripMenuItem();
             sairToolStripMenuItem = new ToolStripMenuItem();
+            groupBoxCorpo = new GroupBox();
+            labelMedia = new Label();
             groupBoxElements.SuspendLayout();
             menuStrip1.SuspendLayout();
+            groupBoxCorpo.SuspendLayout();
             SuspendLayout();
             // 
             // buttonEnviaEmail
@@ -68,7 +70,7 @@
             // checkBoxContemHTML
             // 
             checkBoxContemHTML.AutoSize = true;
-            checkBoxContemHTML.Location = new Point(18, 98);
+            checkBoxContemHTML.Location = new Point(10, 26);
             checkBoxContemHTML.Name = "checkBoxContemHTML";
             checkBoxContemHTML.Size = new Size(158, 19);
             checkBoxContemHTML.TabIndex = 3;
@@ -79,7 +81,7 @@
             // buttonMidia
             // 
             buttonMidia.Enabled = false;
-            buttonMidia.Location = new Point(270, 94);
+            buttonMidia.Location = new Point(262, 22);
             buttonMidia.Name = "buttonMidia";
             buttonMidia.Size = new Size(75, 23);
             buttonMidia.TabIndex = 5;
@@ -97,7 +99,7 @@
             groupBoxElements.Size = new Size(734, 60);
             groupBoxElements.TabIndex = 6;
             groupBoxElements.TabStop = false;
-            groupBoxElements.Text = "Inserir elementos";
+            groupBoxElements.Text = "Adicionar anexo(s)";
             // 
             // labelAnexo
             // 
@@ -120,9 +122,9 @@
             // 
             // richTextBoxCorpo
             // 
-            richTextBoxCorpo.Location = new Point(12, 123);
+            richTextBoxCorpo.Location = new Point(6, 51);
             richTextBoxCorpo.Name = "richTextBoxCorpo";
-            richTextBoxCorpo.Size = new Size(734, 331);
+            richTextBoxCorpo.Size = new Size(722, 320);
             richTextBoxCorpo.TabIndex = 7;
             richTextBoxCorpo.Text = "";
             // 
@@ -132,16 +134,6 @@
             textBoxSubject.Name = "textBoxSubject";
             textBoxSubject.Size = new Size(734, 23);
             textBoxSubject.TabIndex = 8;
-            // 
-            // labelBody
-            // 
-            labelBody.AutoSize = true;
-            labelBody.Font = new Font("Segoe UI", 9F);
-            labelBody.Location = new Point(12, 80);
-            labelBody.Name = "labelBody";
-            labelBody.Size = new Size(43, 15);
-            labelBody.TabIndex = 9;
-            labelBody.Text = "Corpo:";
             // 
             // labelSubject
             // 
@@ -156,7 +148,7 @@
             // 
             buttonBold.Enabled = false;
             buttonBold.Font = new Font("Times New Roman", 9F, FontStyle.Bold);
-            buttonBold.Location = new Point(182, 94);
+            buttonBold.Location = new Point(174, 22);
             buttonBold.Name = "buttonBold";
             buttonBold.Size = new Size(27, 23);
             buttonBold.TabIndex = 11;
@@ -169,7 +161,7 @@
             // 
             buttonItalic.Enabled = false;
             buttonItalic.Font = new Font("Times New Roman", 9F, FontStyle.Italic);
-            buttonItalic.Location = new Point(209, 94);
+            buttonItalic.Location = new Point(201, 22);
             buttonItalic.Name = "buttonItalic";
             buttonItalic.Size = new Size(27, 23);
             buttonItalic.TabIndex = 11;
@@ -182,7 +174,7 @@
             // 
             buttonUnderline.Enabled = false;
             buttonUnderline.Font = new Font("Times New Roman", 9F, FontStyle.Underline);
-            buttonUnderline.Location = new Point(237, 94);
+            buttonUnderline.Location = new Point(229, 22);
             buttonUnderline.Name = "buttonUnderline";
             buttonUnderline.Size = new Size(27, 23);
             buttonUnderline.TabIndex = 11;
@@ -237,31 +229,53 @@
             sairToolStripMenuItem.Text = "Sair";
             sairToolStripMenuItem.Click += sairToolStripMenuItem_Click;
             // 
+            // groupBoxCorpo
+            // 
+            groupBoxCorpo.Controls.Add(labelMedia);
+            groupBoxCorpo.Controls.Add(buttonBold);
+            groupBoxCorpo.Controls.Add(buttonUnderline);
+            groupBoxCorpo.Controls.Add(checkBoxContemHTML);
+            groupBoxCorpo.Controls.Add(buttonItalic);
+            groupBoxCorpo.Controls.Add(richTextBoxCorpo);
+            groupBoxCorpo.Controls.Add(buttonMidia);
+            groupBoxCorpo.Location = new Point(12, 77);
+            groupBoxCorpo.Name = "groupBoxCorpo";
+            groupBoxCorpo.Size = new Size(734, 377);
+            groupBoxCorpo.TabIndex = 13;
+            groupBoxCorpo.TabStop = false;
+            groupBoxCorpo.Text = "Corpo:";
+            // 
+            // labelMedia
+            // 
+            labelMedia.AutoSize = true;
+            labelMedia.Enabled = false;
+            labelMedia.Location = new Point(343, 27);
+            labelMedia.Name = "labelMedia";
+            labelMedia.Size = new Size(79, 15);
+            labelMedia.TabIndex = 12;
+            labelMedia.Text = "<Sem mídia>";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(758, 560);
-            Controls.Add(buttonUnderline);
-            Controls.Add(buttonItalic);
+            Controls.Add(groupBoxCorpo);
             Controls.Add(labelSubject);
-            Controls.Add(buttonMidia);
-            Controls.Add(buttonBold);
-            Controls.Add(labelBody);
             Controls.Add(textBoxSubject);
-            Controls.Add(richTextBoxCorpo);
             Controls.Add(groupBoxElements);
-            Controls.Add(checkBoxContemHTML);
             Controls.Add(buttonEnviaEmail);
             Controls.Add(menuStrip1);
             MainMenuStrip = menuStrip1;
             MinimumSize = new Size(774, 599);
             Name = "Form1";
-            Text = "Form1";
+            Text = "Email Sender Manager";
             groupBoxElements.ResumeLayout(false);
             groupBoxElements.PerformLayout();
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
+            groupBoxCorpo.ResumeLayout(false);
+            groupBoxCorpo.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -276,7 +290,6 @@
         private RichTextBox richTextBoxCorpo;
         private Label labelAnexo;
         private TextBox textBoxSubject;
-        private Label labelBody;
         private Label labelSubject;
         private OpenFileDialog openFileAnexo;
         private Button buttonItalic;
@@ -290,5 +303,7 @@
         private ToolStripMenuItem portuguêsBrasilToolStripMenuItem;
         private ToolStripMenuItem englishUSToolStripMenuItem;
         private ToolStripMenuItem sairToolStripMenuItem;
+        private GroupBox groupBoxCorpo;
+        private Label labelMedia;
     }
 }
