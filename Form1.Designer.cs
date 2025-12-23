@@ -1,6 +1,6 @@
 ﻿namespace WinFormsEnviarEmails
 {
-    partial class Form1
+    partial class Form1Sender
     {
         /// <summary>
         ///  Required designer variable.
@@ -52,6 +52,9 @@
             sairToolStripMenuItem = new ToolStripMenuItem();
             groupBoxCorpo = new GroupBox();
             labelMedia = new Label();
+            buttonReadLastEmail = new Button();
+            labelSender = new Label();
+            buttonEraseLastEmail = new Button();
             groupBoxElements.SuspendLayout();
             menuStrip1.SuspendLayout();
             groupBoxCorpo.SuspendLayout();
@@ -255,11 +258,44 @@
             labelMedia.TabIndex = 12;
             labelMedia.Text = "<Sem mídia>";
             // 
-            // Form1
+            // buttonReadLastEmail
+            // 
+            buttonReadLastEmail.Location = new Point(18, 526);
+            buttonReadLastEmail.Name = "buttonReadLastEmail";
+            buttonReadLastEmail.Size = new Size(114, 23);
+            buttonReadLastEmail.TabIndex = 14;
+            buttonReadLastEmail.Text = "Ler último email";
+            buttonReadLastEmail.UseVisualStyleBackColor = true;
+            buttonReadLastEmail.Click += buttonReadLastEmail_Click;
+            // 
+            // labelSender
+            // 
+            labelSender.AutoSize = true;
+            labelSender.Location = new Point(443, 530);
+            labelSender.Name = "labelSender";
+            labelSender.Size = new Size(70, 15);
+            labelSender.TabIndex = 15;
+            labelSender.Text = "Remetente: ";
+            labelSender.Visible = false;
+            // 
+            // buttonEraseLastEmail
+            // 
+            buttonEraseLastEmail.Location = new Point(138, 526);
+            buttonEraseLastEmail.Name = "buttonEraseLastEmail";
+            buttonEraseLastEmail.Size = new Size(130, 23);
+            buttonEraseLastEmail.TabIndex = 16;
+            buttonEraseLastEmail.Text = "Apagar último email";
+            buttonEraseLastEmail.UseVisualStyleBackColor = true;
+            buttonEraseLastEmail.Click += buttonEraseLastEmail_Click;
+            // 
+            // Form1Sender
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(758, 560);
+            Controls.Add(buttonEraseLastEmail);
+            Controls.Add(labelSender);
+            Controls.Add(buttonReadLastEmail);
             Controls.Add(groupBoxCorpo);
             Controls.Add(labelSubject);
             Controls.Add(textBoxSubject);
@@ -268,7 +304,7 @@
             Controls.Add(menuStrip1);
             MainMenuStrip = menuStrip1;
             MinimumSize = new Size(774, 599);
-            Name = "Form1";
+            Name = "Form1Sender";
             Text = "Email Sender Manager";
             groupBoxElements.ResumeLayout(false);
             groupBoxElements.PerformLayout();
@@ -305,5 +341,8 @@
         private ToolStripMenuItem sairToolStripMenuItem;
         private GroupBox groupBoxCorpo;
         private Label labelMedia;
+        private Button buttonReadLastEmail;
+        private Label labelSender;
+        private Button buttonEraseLastEmail;
     }
 }
