@@ -17,10 +17,11 @@
 * UI Changes.
 
 ## What does it do? - Purpose
-Opens a window as a window to send emails with HTML language support.
+Opens a window as a window to send and read emails with HTML language support.
 
 ## Content
-Single form no dependencies. One menu, two languages: PT-BT; EN-US. One textBox as Subject. RichTextBox as body.
+Dependencies: MailKit and MimeKit 
+One menu, two languages: PT-BT; EN-US. One textBox as Subject. RichTextBox as body.
 
 ## How does it work? - Behavior
 The program is in Portuguese-Brazil language.
@@ -28,6 +29,8 @@ Check "This email contains HTML" box to activate HTML content:
 * "B" button changes the selected text in **bold**. "I" changes in _italic_. "U" in <ins>underlined</ins>.
 * "Media" button adds media files in the body.
 
+The "Read last email" button reads the most recent email.
+The "Erase last email" deletes that same email.
 The "Send email" button works when subject is not null only.
 The "Annex/ Attachment" adds files.
 
@@ -44,4 +47,4 @@ The "Annex/ Attachment" adds files.
 ## What was used? - Resources
 GUI          | .NET  | SQL | Web
 ------------ | ----- | --- | ---
-Windows Forms| v.8.0 | No  | NET.Mail
+Windows Forms| v.8.0 | No  | SMTP and POP3
